@@ -3,160 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bunny | Creative Web Developer & UI Architect</title>
 
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <!-- Inter & Orbitron Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+  <!--
+    Security hardening notes:
+    - This meta CSP is a second line of defence. GitHub Pages does not let you set
+      HTTP response headers, so frame-ancestors / HSTS / nosniff must be set at a
+      proxy or CDN (Cloudflare, Netlify, etc.). See README.md.
+    - All scripts, styles, fonts and images are self-hosted. No third-party code.
+  -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; manifest-src 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#020617">
 
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            display: ['Orbitron', 'sans-serif'],
-          },
-          colors: {
-            obsidian: '#020617',
-            deepSlate: '#0f172a',
-            neonCyan: '#00f2fe',
-            neonViolet: '#8b5cf6',
-            electricBlue: '#38bdf8',
-            glassBorder: 'rgba(255, 255, 255, 0.12)',
-          },
-          animation: {
-            'float-slow': 'float 8s ease-in-out infinite',
-            'float-delayed': 'float 10s ease-in-out 3s infinite',
-            'pulse-glow': 'pulseGlow 3s ease-in-out infinite',
-          },
-          keyframes: {
-            float: {
-              '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
-              '50%': { transform: 'translateY(-20px) rotate(3deg)' },
-            },
-            pulseGlow: {
-              '0%, 100%': { opacity: 0.5, transform: 'scale(1)' },
-              '50%': { opacity: 0.9, transform: 'scale(1.04)' },
-            }
-          }
-        }
-      }
-    }
-  </script>
+  <title>Bunny | Creative Web Developer &amp; UI Architect</title>
+  <meta name="description" content="Portfolio of Bunny, a frontend web developer building interactive web applications, responsive design tools, and accessible user experiences.">
+  <meta name="author" content="Bunny">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://flr-bunny-dev.github.io/Portfolio/">
 
-  <style>
-    body {
-      background-color: #020617;
-      color: #f8fafc;
-      overflow-x: hidden;
-      font-family: 'Inter', sans-serif;
-    }
+  <!-- Social sharing -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Bunny | Creative Web Developer &amp; UI Architect">
+  <meta property="og:description" content="Frontend web developer crafting interactive web applications, responsive design tools, and sleek modern user experiences.">
+  <meta property="og:url" content="https://flr-bunny-dev.github.io/Portfolio/">
+  <meta property="og:site_name" content="Bunny Portfolio">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Bunny | Creative Web Developer &amp; UI Architect">
+  <meta name="twitter:description" content="Frontend web developer crafting interactive web applications, responsive design tools, and sleek modern user experiences.">
 
-    /* Glassmorphism Card Effect */
-    .glass-card {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.015) 100%);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      box-shadow: 
-        0 20px 50px rgba(0, 0, 0, 0.6),
-        inset 0 1px 1px rgba(255, 255, 255, 0.2),
-        inset 0 -1px 1px rgba(0, 0, 0, 0.5);
-      position: relative;
-      overflow: hidden;
-    }
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
 
-    .glass-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 100%;
-      background: radial-gradient(800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(56, 189, 248, 0.1), transparent 40%);
-      border-radius: inherit;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-    }
+  <!-- Self-hosted Font Awesome + compiled Tailwind CSS -->
+  <link rel="stylesheet" href="assets/vendor/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
 
-    /* Gradients */
-    .text-gradient {
-      background: linear-gradient(135deg, #38bdf8 0%, #8b5cf6 50%, #d8b4fe 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .text-gradient-subtle {
-      background: linear-gradient(135deg, #ffffff 30%, #94a3b8 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    /* Skill Badge */
-    .glass-tag {
-      background: rgba(255, 255, 255, 0.03);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
-      transition: all 0.3s ease;
-    }
-
-    .glass-tag:hover {
-      background: rgba(139, 92, 246, 0.15);
-      border-color: rgba(139, 92, 246, 0.4);
-      box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
-      transform: translateY(-2px);
-    }
-
-    /* Futuristic Button */
-    .btn-futuristic {
-      background: linear-gradient(135deg, rgba(56, 189, 248, 0.25) 0%, rgba(139, 92, 246, 0.35) 100%);
-      border: 1px solid rgba(56, 189, 248, 0.5);
-      backdrop-filter: blur(12px);
-      box-shadow: 0 0 20px rgba(56, 189, 248, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.3);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .btn-futuristic:hover {
-      background: linear-gradient(135deg, rgba(56, 189, 248, 0.45) 0%, rgba(139, 92, 246, 0.55) 100%);
-      border-color: rgba(56, 189, 248, 0.8);
-      box-shadow: 0 0 30px rgba(139, 92, 246, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.5);
-      transform: translateY(-2px) scale(1.02);
-    }
-
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #020617;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: rgba(139, 92, 246, 0.4);
-    }
-
-    #graphCanvas {
-      background: radial-gradient(circle at center, rgba(15, 23, 42, 0.9) 0%, rgba(2, 6, 23, 0.98) 100%);
-    }
-  </style>
+  <script src="assets/js/app.js" defer></script>
 </head>
 <body class="relative min-h-screen text-slate-100 flex flex-col justify-between selection:bg-neonViolet selection:text-white">
 
+  <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded-lg focus:bg-slate-900 focus:px-4 focus:py-2 focus:text-white focus:ring-2 focus:ring-electricBlue">
+    Skip to main content
+  </a>
+
   <!-- BACKGROUND AMBIENT GLOW ORBS -->
-  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
     <div class="absolute -top-40 -left-40 w-[550px] h-[550px] bg-neonViolet/25 rounded-full blur-[140px] animate-float-slow"></div>
     <div class="absolute top-1/3 -right-40 w-[600px] h-[600px] bg-electricBlue/20 rounded-full blur-[160px] animate-float-delayed"></div>
     <div class="absolute -bottom-40 left-1/3 w-[550px] h-[550px] bg-neonCyan/20 rounded-full blur-[150px] animate-float-slow"></div>
@@ -164,25 +56,25 @@
     <div class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem]"></div>
   </div>
 
-  <!-- MAIN CONTAINER -->
-  <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-grow w-full">
+  <!-- MAIN CONTENT -->
+  <main id="main" class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-grow w-full">
 
     <!-- HERO SECTION -->
     <header class="glass-card rounded-3xl p-8 sm:p-12 mb-12 transform transition-all duration-300 hover:border-purple-500/30">
       <div class="flex flex-col md:flex-row items-center justify-between gap-8">
-        
+
         <div class="space-y-4 text-center md:text-left">
           <!-- Status Badge -->
           <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold tracking-wider uppercase backdrop-blur-md">
-            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            Available for Projects & Learning
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" aria-hidden="true"></span>
+            Available for Projects &amp; Learning
           </div>
 
           <!-- Title -->
           <h1 class="text-4xl sm:text-6xl font-black tracking-tight font-display">
             Hi, I'm <span class="text-gradient">Bunny</span> 👋
           </h1>
-          
+
           <p class="text-lg sm:text-xl text-slate-300 max-w-xl font-light leading-relaxed">
             Frontend Web Developer crafting <span class="text-electricBlue font-normal">interactive web applications</span>, responsive design tools, and sleek modern user experiences.
           </p>
@@ -190,23 +82,28 @@
           <!-- Quick Actions -->
           <div class="flex flex-wrap items-center justify-center md:justify-start gap-4 pt-2">
             <a href="#projects" class="btn-futuristic px-6 py-3 rounded-xl font-medium text-sm tracking-wide flex items-center gap-2 text-white">
-              <i class="fa-solid fa-code text-electricBlue"></i> View Projects
+              <i class="fa-solid fa-code text-electricBlue" aria-hidden="true"></i> View Projects
             </a>
             <a href="#contact" class="glass-tag px-6 py-3 rounded-xl font-medium text-sm tracking-wide flex items-center gap-2 text-slate-200 hover:text-white">
-              <i class="fa-regular fa-envelope text-neonViolet"></i> Contact Me
+              <i class="fa-regular fa-envelope text-neonViolet" aria-hidden="true"></i> Contact Me
             </a>
           </div>
         </div>
 
         <!-- Glassmorphic Avatar Frame -->
         <div class="relative group flex-shrink-0">
-          <div class="absolute -inset-2 bg-gradient-to-r from-neonViolet via-electricBlue to-neonCyan rounded-full blur-lg opacity-75 group-hover:opacity-100 transition duration-700 animate-pulse-glow"></div>
+          <div class="absolute -inset-2 bg-gradient-to-r from-neonViolet via-electricBlue to-neonCyan rounded-full blur-lg opacity-75 group-hover:opacity-100 transition duration-700 animate-pulse-glow" aria-hidden="true"></div>
           <div class="relative w-36 h-36 sm:w-44 sm:h-44 rounded-full bg-slate-950 border-2 border-white/20 flex items-center justify-center p-1.5 backdrop-blur-xl shadow-2xl overflow-hidden">
-            <img 
-              src="1000114100.jpg" 
-              alt="Bunny Profile Avatar" 
-              class="w-full h-full rounded-full object-cover shadow-inner transition-transform duration-500 group-hover:scale-105" 
-              onerror="this.onerror=null; this.src='https://placehold.co/200x200/1e1b4b/38bdf8?text=Bunny';"
+            <!-- Replace with your own photo by changing src to e.g. "1000114100.jpg". -->
+            <img
+              id="avatar"
+              src="assets/img/avatar.svg"
+              data-fallback="assets/img/avatar.svg"
+              alt="Bunny, frontend web developer"
+              width="176"
+              height="176"
+              decoding="async"
+              class="w-full h-full rounded-full object-cover shadow-inner transition-transform duration-500 group-hover:scale-105"
             />
           </div>
         </div>
@@ -215,55 +112,55 @@
     </header>
 
     <!-- CORE TECHNOLOGIES -->
-    <section class="mb-12">
+    <section class="mb-12" aria-labelledby="tech-heading">
       <div class="flex items-center gap-3 mb-6">
-        <i class="fa-solid fa-microchip text-electricBlue text-xl"></i>
-        <h2 class="text-2xl font-bold font-display tracking-wide text-gradient-subtle">Core Tech Stack</h2>
+        <i class="fa-solid fa-microchip text-electricBlue text-xl" aria-hidden="true"></i>
+        <h2 id="tech-heading" class="text-2xl font-bold font-display tracking-wide text-gradient-subtle">Core Tech Stack</h2>
       </div>
 
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <div class="glass-tag p-4 rounded-2xl flex flex-col items-center text-center gap-2">
-          <i class="fa-brands fa-html5 text-3xl text-orange-400"></i>
+          <i class="fa-brands fa-html5 text-3xl text-orange-400" aria-hidden="true"></i>
           <span class="font-medium text-sm text-slate-200">HTML5</span>
           <span class="text-[10px] text-slate-400 font-mono">Semantic Structure</span>
         </div>
 
         <div class="glass-tag p-4 rounded-2xl flex flex-col items-center text-center gap-2">
-          <i class="fa-brands fa-css3-alt text-3xl text-blue-400"></i>
-          <span class="font-medium text-sm text-slate-200">CSS3 & Styling</span>
+          <i class="fa-brands fa-css3-alt text-3xl text-blue-400" aria-hidden="true"></i>
+          <span class="font-medium text-sm text-slate-200">CSS3 &amp; Styling</span>
           <span class="text-[10px] text-slate-400 font-mono">Glassmorphism / FX</span>
         </div>
 
         <div class="glass-tag p-4 rounded-2xl flex flex-col items-center text-center gap-2">
-          <i class="fa-brands fa-square-js text-3xl text-yellow-400"></i>
+          <i class="fa-brands fa-square-js text-3xl text-yellow-400" aria-hidden="true"></i>
           <span class="font-medium text-sm text-slate-200">JavaScript ES6+</span>
           <span class="text-[10px] text-slate-400 font-mono">Interactive Logic</span>
         </div>
 
         <div class="glass-tag p-4 rounded-2xl flex flex-col items-center text-center gap-2">
-          <i class="fa-brands fa-github text-3xl text-purple-400"></i>
-          <span class="font-medium text-sm text-slate-200">Git & GitHub</span>
+          <i class="fa-brands fa-github text-3xl text-purple-400" aria-hidden="true"></i>
+          <span class="font-medium text-sm text-slate-200">Git &amp; GitHub</span>
           <span class="text-[10px] text-slate-400 font-mono">Version Control</span>
         </div>
       </div>
     </section>
 
     <!-- FEATURED PROJECTS SECTION -->
-    <section id="projects" class="mb-12 space-y-8">
+    <section id="projects" class="mb-12 space-y-8" aria-labelledby="projects-heading">
       <div class="flex items-center justify-between mb-2">
         <div class="flex items-center gap-3">
-          <i class="fa-solid fa-cubes text-neonViolet text-xl"></i>
-          <h2 class="text-2xl font-bold font-display tracking-wide text-gradient-subtle">Featured Project</h2>
+          <i class="fa-solid fa-cubes text-neonViolet text-xl" aria-hidden="true"></i>
+          <h2 id="projects-heading" class="text-2xl font-bold font-display tracking-wide text-gradient-subtle">Featured Project</h2>
         </div>
         <span class="text-xs text-slate-400 font-mono flex items-center gap-1">
-          <span class="w-1.5 h-1.5 rounded-full bg-electricBlue animate-ping"></span> Live Interactive Visualizer
+          <span class="w-1.5 h-1.5 rounded-full bg-electricBlue animate-ping" aria-hidden="true"></span> Live Interactive Visualizer
         </span>
       </div>
 
       <!-- MAIN FEATURED CARD -->
       <div class="glass-card rounded-3xl p-6 sm:p-8 border border-white/10 hover:border-purple-500/40 transition-all duration-300">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          
+
           <!-- Project Info -->
           <div class="lg:col-span-5 space-y-4">
             <div class="inline-block px-3 py-1 rounded-md bg-purple-500/10 border border-purple-500/20 text-neonViolet text-xs font-mono">
@@ -273,7 +170,7 @@
             <p class="text-slate-300 text-sm leading-relaxed">
               An interactive graphing tool where you can plot points, calculate line slopes, and explore coordinate geometry visually in real-time.
             </p>
-            
+
             <div class="flex flex-wrap gap-2 pt-2">
               <span class="px-2.5 py-1 text-xs rounded-md bg-slate-800/80 text-slate-300 border border-slate-700">HTML5 Canvas</span>
               <span class="px-2.5 py-1 text-xs rounded-md bg-slate-800/80 text-slate-300 border border-slate-700">Coordinate Math</span>
@@ -281,9 +178,9 @@
             </div>
 
             <div class="pt-4 flex flex-wrap gap-3">
-              <a href="https://flr-bunny-dev.github.io/FLR-Bunny-dev/" target="_blank" rel="noopener" class="btn-futuristic px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 group text-white">
+              <a href="https://flr-bunny-dev.github.io/FLR-Bunny-dev/" target="_blank" rel="noopener noreferrer" class="btn-futuristic px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 group text-white">
                 <span>View Live Demo</span>
-                <i class="fa-solid fa-arrow-up-right-from-square text-xs group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+                <i class="fa-solid fa-arrow-up-right-from-square text-xs group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" aria-hidden="true"></i>
               </a>
             </div>
           </div>
@@ -292,27 +189,39 @@
           <div class="lg:col-span-7 rounded-2xl overflow-hidden border border-white/10 bg-slate-950 p-4 relative">
             <div class="flex items-center justify-between mb-3 px-2">
               <div class="flex items-center gap-2 text-xs font-mono text-slate-400">
-                <span class="w-2.5 h-2.5 rounded-full bg-red-500/80 inline-block"></span>
-                <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80 inline-block"></span>
-                <span class="w-2.5 h-2.5 rounded-full bg-green-500/80 inline-block"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-red-500/80 inline-block" aria-hidden="true"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80 inline-block" aria-hidden="true"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-green-500/80 inline-block" aria-hidden="true"></span>
                 <span class="ml-2 text-slate-300">Graph_Visualizer_Sandbox.js</span>
               </div>
-              <button id="resetGraphBtn" class="text-xs font-mono text-electricBlue hover:underline flex items-center gap-1">
-                <i class="fa-solid fa-rotate-right"></i> Reset
+              <button id="resetGraphBtn" type="button" class="text-xs font-mono text-electricBlue hover:underline flex items-center gap-1">
+                <i class="fa-solid fa-rotate-right" aria-hidden="true"></i> Reset
               </button>
             </div>
 
             <!-- Canvas -->
             <div class="relative w-full aspect-video rounded-xl overflow-hidden border border-slate-800 shadow-inner">
-              <canvas id="graphCanvas" class="w-full h-full cursor-crosshair block"></canvas>
+              <canvas
+                id="graphCanvas"
+                class="w-full h-full cursor-crosshair block"
+                tabindex="0"
+                role="img"
+                aria-label="Interactive coordinate graph. Click to plot a point, or use the arrow keys and press Enter."
+                aria-describedby="graphHelp"
+              >Your browser does not support the canvas element. The interactive graph requires JavaScript.</canvas>
               <div class="absolute bottom-2 left-2 bg-slate-900/80 backdrop-blur-md px-3 py-1 rounded border border-white/10 text-[11px] font-mono text-slate-300 pointer-events-none">
-                <span id="coordDisplay">Click grid to plot points</span>
+                <span id="coordDisplay" aria-live="polite">Click grid to plot points</span>
               </div>
             </div>
-            
-            <p class="text-[11px] text-center text-slate-400 mt-2 italic font-mono">
-              💡 Interactive Preview: Click anywhere on the grid to connect points & compute slope coordinates!
+
+            <p id="graphHelp" class="text-[11px] text-center text-slate-400 mt-2 italic font-mono">
+              💡 Click the grid to plot points. Keyboard: Tab to the graph, use arrow keys, then Enter to plot.
             </p>
+            <noscript>
+              <p class="text-[11px] text-center text-amber-400 mt-2 font-mono">
+                JavaScript is disabled, so the interactive graph is unavailable.
+              </p>
+            </noscript>
           </div>
 
         </div>
@@ -321,17 +230,17 @@
     </section>
 
     <!-- CONTACT SECTION -->
-    <section id="contact" class="mb-12">
+    <section id="contact" class="mb-12" aria-labelledby="contact-heading">
       <div class="glass-card rounded-3xl p-8 sm:p-12 text-center border border-white/10 relative overflow-hidden">
-        
-        <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-neonViolet/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-neonViolet/10 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
 
         <div class="relative z-10 max-w-xl mx-auto space-y-6">
-          <div class="w-16 h-16 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center mx-auto text-neonViolet text-2xl shadow-lg shadow-purple-500/10">
+          <div class="w-16 h-16 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center mx-auto text-neonViolet text-2xl shadow-lg shadow-purple-500/10" aria-hidden="true">
             <i class="fa-solid fa-paper-plane"></i>
           </div>
 
-          <h2 class="text-3xl font-bold font-display text-white tracking-wide">Contact Me</h2>
+          <h2 id="contact-heading" class="text-3xl font-bold font-display text-white tracking-wide">Contact Me</h2>
           <p class="text-slate-300 text-sm leading-relaxed">
             Feel free to reach out if you have questions, feedback, or would like to collaborate on projects!
           </p>
@@ -339,20 +248,20 @@
           <!-- Email Badge -->
           <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
             <div class="glass-tag px-5 py-3 rounded-xl border border-white/15 text-slate-200 font-mono text-sm flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-start">
-              <i class="fa-regular fa-envelope text-electricBlue"></i>
+              <i class="fa-regular fa-envelope text-electricBlue" aria-hidden="true"></i>
               <span id="emailText">causalgmail@gmail.com</span>
-              <button id="copyEmailBtn" class="ml-2 text-xs bg-white/10 hover:bg-white/20 px-2.5 py-1 rounded transition text-slate-300 hover:text-white" title="Copy Email">
-                <i class="fa-regular fa-copy"></i>
+              <button id="copyEmailBtn" type="button" class="ml-2 text-xs bg-white/10 hover:bg-white/20 px-2.5 py-1 rounded transition text-slate-300 hover:text-white" title="Copy email address" aria-label="Copy email address">
+                <i class="fa-regular fa-copy" aria-hidden="true"></i>
               </button>
             </div>
-            
+
             <a href="mailto:causalgmail@gmail.com" class="btn-futuristic px-6 py-3 rounded-xl font-semibold text-sm w-full sm:w-auto flex items-center justify-center gap-2 text-white">
               <span>Send Mail</span>
-              <i class="fa-solid fa-arrow-right text-xs"></i>
+              <i class="fa-solid fa-arrow-right text-xs" aria-hidden="true"></i>
             </a>
           </div>
 
-          <div id="toast" class="hidden text-xs text-electricBlue font-mono bg-cyan-500/10 border border-cyan-500/30 py-1.5 px-4 rounded-full inline-block">
+          <div id="toast" role="status" aria-live="polite" class="hidden text-xs text-electricBlue font-mono bg-cyan-500/10 border border-cyan-500/30 py-1.5 px-4 rounded-full inline-block">
             ✓ Copied email address to clipboard!
           </div>
 
@@ -360,186 +269,22 @@
       </div>
     </section>
 
-  </div>
+  </main>
 
   <!-- FOOTER -->
   <footer class="relative z-10 border-t border-white/10 bg-slate-950/60 backdrop-blur-md py-8">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 text-center space-y-3">
       <div class="flex justify-center items-center gap-4 text-slate-400 text-lg">
-        <a href="https://github.com/flr-bunny-dev" target="_blank" rel="noopener" class="hover:text-electricBlue transition-colors" title="GitHub">
-          <i class="fa-brands fa-github"></i>
+        <a href="https://github.com/flr-bunny-dev" target="_blank" rel="noopener noreferrer" class="hover:text-electricBlue transition-colors" aria-label="Bunny on GitHub">
+          <i class="fa-brands fa-github" aria-hidden="true"></i>
         </a>
-        <a href="mailto:causalgmail@gmail.com" class="hover:text-electricBlue transition-colors" title="Email">
-          <i class="fa-solid fa-envelope"></i>
+        <a href="mailto:causalgmail@gmail.com" class="hover:text-electricBlue transition-colors" aria-label="Email Bunny">
+          <i class="fa-solid fa-envelope" aria-hidden="true"></i>
         </a>
       </div>
       <p id="footerYear" class="text-xs text-slate-400 font-mono tracking-wider"></p>
     </div>
   </footer>
-
-  <!-- JAVASCRIPT LOGIC -->
-  <script>
-    // 1. Footer Year
-    document.getElementById("footerYear").textContent = 
-      `© ${new Date().getFullYear()} Bunny • Built with Glassmorphic Style`;
-
-    // 2. Email Clipboard Copy
-    const copyBtn = document.getElementById("copyEmailBtn");
-    const toast = document.getElementById("toast");
-    
-    copyBtn.addEventListener("click", () => {
-      const email = document.getElementById("emailText").textContent;
-      const tempInput = document.createElement("input");
-      tempInput.value = email;
-      document.body.appendChild(tempInput);
-      tempInput.select();
-      document.execCommand("copy");
-      document.body.removeChild(tempInput);
-
-      toast.classList.remove("hidden");
-      setTimeout(() => {
-        toast.classList.add("hidden");
-      }, 2500);
-    });
-
-    // 3. Dynamic Mouse Spotlight Effect on Glass Cards
-    document.querySelectorAll('.glass-card').forEach(card => {
-      card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        card.style.setProperty('--mouse-x', `${x}px`);
-        card.style.setProperty('--mouse-y', `${y}px`);
-      });
-    });
-
-    // 4. Interactive Graph Visualizer Sandbox
-    const canvas = document.getElementById('graphCanvas');
-    const ctx = canvas.getContext('2d');
-    const coordDisplay = document.getElementById('coordDisplay');
-    const resetBtn = document.getElementById('resetGraphBtn');
-
-    let points = [];
-
-    function resizeCanvas() {
-      const container = canvas.parentElement;
-      canvas.width = container.clientWidth;
-      canvas.height = container.clientHeight;
-      drawGraph();
-    }
-
-    window.addEventListener('resize', resizeCanvas);
-
-    function drawGraph() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      const width = canvas.width;
-      const height = canvas.height;
-      const gridSize = 30;
-
-      // Draw Grid Lines
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
-      ctx.lineWidth = 1;
-
-      for (let x = 0; x < width; x += gridSize) {
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, height);
-        ctx.stroke();
-      }
-      for (let y = 0; y < height; y += gridSize) {
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(width, y);
-        ctx.stroke();
-      }
-
-      // Draw Center Axes
-      const centerX = Math.floor(width / (2 * gridSize)) * gridSize;
-      const centerY = Math.floor(height / (2 * gridSize)) * gridSize;
-
-      ctx.strokeStyle = 'rgba(56, 189, 248, 0.3)';
-      ctx.lineWidth = 1.5;
-      
-      // X-Axis
-      ctx.beginPath();
-      ctx.moveTo(0, centerY);
-      ctx.lineTo(width, centerY);
-      ctx.stroke();
-
-      // Y-Axis
-      ctx.beginPath();
-      ctx.moveTo(centerX, 0);
-      ctx.lineTo(centerX, height);
-      ctx.stroke();
-
-      // Draw Lines between points
-      if (points.length > 1) {
-        ctx.beginPath();
-        ctx.strokeStyle = 'rgba(139, 92, 246, 0.8)';
-        ctx.lineWidth = 2.5;
-        ctx.setLineDash([4, 4]);
-        ctx.moveTo(points[0].x, points[0].y);
-        for (let i = 1; i < points.length; i++) {
-          ctx.lineTo(points[i].x, points[i].y);
-        }
-        ctx.stroke();
-        ctx.setLineDash([]);
-      }
-
-      // Draw Points
-      points.forEach((pt, index) => {
-        ctx.beginPath();
-        ctx.arc(pt.x, pt.y, 8, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(56, 189, 248, 0.25)';
-        ctx.fill();
-
-        ctx.beginPath();
-        ctx.arc(pt.x, pt.y, 4, 0, Math.PI * 2);
-        ctx.fillStyle = '#38bdf8';
-        ctx.fill();
-
-        ctx.fillStyle = '#f8fafc';
-        ctx.font = '10px monospace';
-        const gridX = Math.round((pt.x - centerX) / gridSize);
-        const gridY = Math.round((centerY - pt.y) / gridSize);
-        ctx.fillText(`P${index + 1}(${gridX}, ${gridY})`, pt.x + 10, pt.y - 10);
-      });
-    }
-
-    canvas.addEventListener('click', (e) => {
-      const rect = canvas.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-
-      points.push({ x, y });
-      drawGraph();
-
-      if (points.length > 0) {
-        const lastPt = points[points.length - 1];
-        const width = canvas.width;
-        const height = canvas.height;
-        const gridSize = 30;
-        const centerX = Math.floor(width / (2 * gridSize)) * gridSize;
-        const centerY = Math.floor(height / (2 * gridSize)) * gridSize;
-        
-        const gx = Math.round((lastPt.x - centerX) / gridSize);
-        const gy = Math.round((centerY - lastPt.y) / gridSize);
-        
-        coordDisplay.textContent = `Plotted P${points.length}: [X: ${gx}, Y: ${gy}] • Total Points: ${points.length}`;
-      }
-    });
-
-    resetBtn.addEventListener('click', () => {
-      points = [];
-      drawGraph();
-      coordDisplay.textContent = 'Click grid to plot points';
-    });
-
-    window.onload = () => {
-      resizeCanvas();
-    };
-  </script>
 
 </body>
 </html>
