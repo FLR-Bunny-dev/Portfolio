@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio - GENESIS AI Assistant</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Söhne:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #ffffff;
+        --fg: #0a0a0c;
+        --muted: #6b6b80;
+        --accent: #e4002b;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Söhne", system-ui, -apple-system, sans-serif;
+        background: var(--bg);
+        color: var(--fg);
+        min-height: 100vh;
+        line-height: 1.6;
+      }
+      .max-width {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+      h1 {
+        font-size: 2.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+      }
+      h2 {
+        font-size: 1.75rem;
+        font-weight: 500;
+        margin: 2rem 0 1rem;
+      }
+      p {
+        color: var(--muted);
+        margin-bottom: 1.5rem;
+      }
+      .tag {
+        display: inline-block;
+        background: #e4002b;
+        color: white;
+        padding: 4px 8px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        border-radius: 4px;
+        margin-right: 4px;
+        margin-bottom: 4px;
+      }
+      .card {
+        background: #f8f8f8;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin: 1rem 0;
+      }
+      .tech {
+        color: var(--accent);
+        font-weight: 500;
+      }
+      .footer {
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 1px solid #e0e0e0;
+        color: var(--muted);
+        font-size: 0.875rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="max-width">
+      <h1>GENESIS</h1>
+      <p>Offline AI Assistant</p>
+
+      <section>
+        <h2>Features</h2>
+        <ul style="margin-bottom: 2rem;">
+          <li>Natural language interaction with local LLM</li>
+          <li>Memory management (/remember, /memories)</li>
+          <li>Task tracking and planning (/plan, /addtask)</li>
+          <li>File operations (create, read, review Python files)</li>
+          <li>3D visualization modes (/3d cube, /3d tree, /3d sphere)</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>3D Orb Gallery</h2>
+        <p>
+          Interactive sphere of interface references built with Three.js and
+          embedded gallery plates. This component visualizes interface designs
+          as a rotating orb with hover lift and focus dimming effects.
+        </p>
+
+        <div id="orb-gallery-root"></div>
+
+        <script type="module">
+          import { OrbGallery } from "./src/shaders/orb-gallery/OrbGallery.tsx";
+
+          // Render OrbGallery into the div
+          const root = document.getElementById("orb-gallery-root");
+          if (typeof OrbGallery !== "undefined") {
+            // Dynamic import for browser environment
+            import("./src/shaders/orb-gallery/OrbGallery.tsx")
+              .then(module => {
+                const component = module.OrbGallery.default || module.OrbGallery;
+                root.innerHTML = "";
+                root.appendChild(component({}));
+              })
+              .catch(err => {
+                console.error("OrbGallery load error:", err);
+                root.innerHTML = `
+                  <div class="card">
+                    <h3>Orb Gallery</h3>
+                    <p>Gallery visualization loading...</p>
+                  </div>
+                `;
+              });
+          } else {
+            root.innerHTML = `
+              <div class="card">
+                <h3>Orb Gallery</h3>
+                <p>Gallery component loading...</p>
+              </div>
+            `;
+          }
+        </script>
+      </section>
+
+      <footer class="footer">
+        <p>
+          Built with GENESIS · Offline AI Assistant · 2026
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>

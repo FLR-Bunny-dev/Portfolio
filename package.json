@@ -1,0 +1,14 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "description": "GENESIS AI Assistant Portfolio with 3D Orb Gallery",
+  "type": "module",
+  "scripts": {
+    "dev": "echo 'Portfolio development server'",
+    "build": "echo 'Building portfolio...'"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
