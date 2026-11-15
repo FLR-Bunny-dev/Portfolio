@@ -19,7 +19,7 @@ export function OrbGallery({ className = "", style }: OrbGalleryProps) {
     if (!host || typeof IntersectionObserver === "undefined") return undefined;
     const observer = new IntersectionObserver(
       ([entry]) => setHostVisible(entry?.isIntersecting ?? true),
-      { rootMargin: "80px }
+      { rootMargin: "80px" }
     );
     observer.observe(host);
     return () => observer.disconnect();
