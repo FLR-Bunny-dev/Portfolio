@@ -1,184 +1,66 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>GENESIS: Offline AI Assistant</title>
-<meta name="description" content="GENESIS is an offline AI assistant that runs a local LLM. Try the commands live in the terminal below." />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#09090d">
+<meta name="description" content="Meet GENESIS: a local-first AI assistant concept. Explore its command-line demo, memory tools, task planning and privacy-first approach.">
+<title>GENESIS — Local-first AI assistant</title>
 <style>
-  :root{
-    --bg:#08080b; --panel:#0f0f14; --line:#23232d; --fg:#f2f2f5; --muted:#9a9ab0;
-    --accent:#e4002b; --accent2:#ff5c7a; --ok:#4ade80;
-    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-    --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{background:var(--bg);color:var(--fg);font-family:var(--sans);line-height:1.6;min-height:100vh;
-    background-image:radial-gradient(60rem 30rem at 50% -10%,rgba(228,0,43,.18),transparent 60%)}
-  .wrap{max-width:860px;margin:0 auto;padding:0 20px}
-  header.hero{padding:56px 0 24px;text-align:center}
-  .eyebrow{display:inline-block;font:500 .75rem var(--mono);letter-spacing:.14em;text-transform:uppercase;
-    color:var(--accent2);border:1px solid rgba(255,92,122,.35);padding:4px 10px;border-radius:999px;margin-bottom:18px}
-  h1{font-size:clamp(2.6rem,9vw,4.6rem);font-weight:700;letter-spacing:-.03em;line-height:1.05}
-  h1 span{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
-  .sub{color:var(--muted);font-size:1.1rem;max-width:34rem;margin:16px auto 26px}
-  .cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-  .btn{display:inline-block;padding:13px 22px;border-radius:10px;font-weight:600;text-decoration:none;font-size:1rem;
-    border:1px solid var(--line);color:var(--fg);transition:transform .15s,border-color .15s,background .15s}
-  .btn:hover{transform:translateY(-2px);border-color:#44445a}
-  .btn.primary{background:var(--accent);border-color:var(--accent)}
-  .btn.primary:hover{background:#ff1a44}
-  .btn:focus-visible,.chip:focus-visible,input:focus-visible{outline:2px solid var(--accent2);outline-offset:2px}
-
-  .term{margin:34px 0 10px;background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;
-    box-shadow:0 30px 80px -30px rgba(228,0,43,.35)}
-  .bar{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--line);background:#0b0b10}
-  .dot{width:11px;height:11px;border-radius:50%;background:#2c2c38}
-  .bar .t{margin-left:8px;font:.78rem var(--mono);color:var(--muted)}
-  .bar .live{margin-left:auto;font:.7rem var(--mono);color:var(--ok)}
-  #out{font:.92rem/1.55 var(--mono);padding:16px;height:330px;overflow-y:auto;scroll-behavior:smooth}
-  #out .u{color:var(--accent2)}
-  #out .u::before{content:"> ";color:var(--muted)}
-  #out .g{color:#d9d9e4;margin:2px 0 12px;white-space:pre-wrap}
-  #out .g b{color:var(--ok);font-weight:600}
-  .cursor{display:inline-block;width:8px;height:1em;background:var(--accent2);vertical-align:-2px;animation:b 1s steps(2) infinite}
-  @keyframes b{50%{opacity:0}}
-  .chips{display:flex;gap:8px;flex-wrap:wrap;padding:0 16px 14px}
-  .chip{font:.82rem var(--mono);color:var(--fg);background:#16161e;border:1px solid var(--line);border-radius:999px;
-    padding:8px 14px;cursor:pointer;min-height:40px;transition:border-color .15s,background .15s}
-  .chip:hover{border-color:var(--accent2);background:#1d1d27}
-  form{display:flex;border-top:1px solid var(--line)}
-  form span{padding:14px 0 14px 16px;font:.92rem var(--mono);color:var(--accent2)}
-  input{flex:1;background:transparent;border:0;color:var(--fg);font:.92rem var(--mono);padding:14px 16px 14px 8px;min-width:0}
-  input::placeholder{color:#5d5d72}
-  .note{font-size:.78rem;color:#6d6d82;text-align:center;margin:10px 0 0}
-
-  .cube-scene{perspective:600px;height:130px;display:flex;justify-content:center;align-items:center}
-  .cube{width:70px;height:70px;position:relative;transform-style:preserve-3d;animation:spin 7s linear infinite}
-  .cube i{position:absolute;inset:0;border:1px solid var(--accent2);background:rgba(228,0,43,.12)}
-  .cube i:nth-child(1){transform:translateZ(35px)}
-  .cube i:nth-child(2){transform:rotateY(180deg) translateZ(35px)}
-  .cube i:nth-child(3){transform:rotateY(90deg) translateZ(35px)}
-  .cube i:nth-child(4){transform:rotateY(-90deg) translateZ(35px)}
-  .cube i:nth-child(5){transform:rotateX(90deg) translateZ(35px)}
-  .cube i:nth-child(6){transform:rotateX(-90deg) translateZ(35px)}
-  @keyframes spin{to{transform:rotateX(360deg) rotateY(360deg)}}
-
-  section{padding:46px 0 10px}
-  h2{font-size:1.6rem;letter-spacing:-.01em;margin-bottom:6px}
-  .lead{color:var(--muted);margin-bottom:22px}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
-  .card code{font:.82rem var(--mono);color:var(--accent2);display:block;margin-bottom:8px}
-  .card h3{font-size:1.02rem;margin-bottom:4px}
-  .card p{color:var(--muted);font-size:.93rem}
-  .final{text-align:center;padding:56px 0 20px}
-  footer{border-top:1px solid var(--line);margin-top:40px;padding:24px 0 40px;color:#6d6d82;font-size:.85rem;text-align:center}
-  @media (prefers-reduced-motion:reduce){.cube,.cursor{animation:none}html{scroll-behavior:auto}#out{scroll-behavior:auto}}
-  @media (max-width:520px){#out{height:300px;font-size:.85rem}header.hero{padding-top:36px}}
+:root{color-scheme:dark;--bg:#09090d;--panel:#111118;--line:#292936;--text:#f4f3f7;--muted:#a3a1b2;--red:#f12b50;--pink:#ff718a;--green:#75e0a2;--mono:ui-monospace,SFMono-Regular,Consolas,monospace;--sans:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:86px}body{margin:0;background:radial-gradient(ellipse at 50% -20%,#43101f 0,transparent 48%),var(--bg);color:var(--text);font:16px/1.65 var(--sans)}a{color:inherit}.wrap{width:min(100% - 40px,1000px);margin:auto}
+header{position:sticky;top:0;z-index:5;background:#09090de8;backdrop-filter:blur(16px);border-bottom:1px solid #ffffff12}.nav{height:68px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{font:700 1rem var(--mono);letter-spacing:.12em;text-decoration:none}.brand b{color:var(--red)}nav{display:flex;gap:24px}nav a{font-size:.88rem;color:var(--muted);text-decoration:none}nav a:hover,nav a:focus-visible{color:var(--text)}.hero{text-align:center;padding:82px 0 42px}.eyebrow{display:inline-flex;align-items:center;gap:9px;border:1px solid #f12b504d;background:#f12b5010;color:#ff8da1;border-radius:99px;padding:6px 12px;font:.74rem var(--mono);letter-spacing:.12em;text-transform:uppercase}.pulse{width:7px;height:7px;background:var(--green);border-radius:50%;box-shadow:0 0 12px var(--green)}h1{font-size:clamp(3.2rem,10vw,6.5rem);letter-spacing:-.075em;line-height:.98;margin:24px 0 18px}h1 span{background:linear-gradient(100deg,#f12b50,#ff9aaa);color:transparent;background-clip:text}.intro{max-width:650px;margin:0 auto;color:var(--muted);font-size:clamp(1rem,2vw,1.2rem)}.actions{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin:28px 0 0}.btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 19px;border:1px solid var(--line);border-radius:10px;text-decoration:none;font-weight:650;transition:transform .18s,border-color .18s,background .18s}.btn:hover{transform:translateY(-2px);border-color:#696979}.btn.primary{background:var(--red);border-color:var(--red);color:white}.btn.primary:hover{background:#ff4566}.btn:focus-visible,button:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid var(--pink);outline-offset:3px}
+.terminal{margin:28px auto 0;max-width:820px;border:1px solid #393946;border-radius:16px;overflow:hidden;background:#0d0d13;box-shadow:0 30px 100px #0009,0 0 55px #f12b5012;text-align:left}.termbar{height:48px;display:flex;align-items:center;gap:8px;padding:0 16px;background:#14141c;border-bottom:1px solid var(--line)}.dot{width:10px;height:10px;border-radius:50%;background:#555563}.dot:nth-child(1){background:#ff6058}.dot:nth-child(2){background:#ffbd2e}.dot:nth-child(3){background:#28c840}.termname{margin-left:8px;color:var(--muted);font:.76rem var(--mono)}.status{margin-left:auto;color:var(--green);font:.72rem var(--mono)}#output{height:310px;overflow:auto;padding:18px 20px;font:.88rem/1.65 var(--mono);scrollbar-color:#454553 transparent}.line{white-space:pre-wrap;overflow-wrap:anywhere;margin:0 0 10px}.userline{color:var(--pink)}.userline:before{content:"› ";color:#888}.response{color:#d4d2de}.hint{color:#8d8b9c}.chips{display:flex;gap:8px;flex-wrap:wrap;padding:0 16px 14px}.chip{font:.76rem var(--mono);padding:8px 11px;border:1px solid #30303c;border-radius:8px;background:#171720;color:#e8e6ef;cursor:pointer}.chip:hover{border-color:var(--pink);background:#211821}form{display:flex;align-items:center;border-top:1px solid var(--line);padding:0 16px;gap:10px}form label{font:.9rem var(--mono);color:var(--pink)}input{width:100%;min-width:0;background:transparent;border:0;color:var(--text);padding:16px 0;font:.9rem var(--mono)}input::placeholder{color:#777585}form button{border:0;background:transparent;color:var(--pink);font:.8rem var(--mono);cursor:pointer;padding:10px}form button:hover{color:white}.disclaimer{text-align:center;color:#777585;font-size:.78rem;margin:12px 0 0}
+section{padding:64px 0 0}.sectionhead{max-width:650px;margin-bottom:24px}h2{font-size:clamp(1.6rem,4vw,2.2rem);letter-spacing:-.04em;margin:0 0 8px}.muted{color:var(--muted);margin:0}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.card{border:1px solid var(--line);border-radius:14px;background:linear-gradient(145deg,#15151d,#101016);padding:22px;min-height:150px}.card .symbol{font:.78rem var(--mono);color:var(--pink);display:inline-block;margin-bottom:14px}.card h3{margin:0 0 5px;font-size:1.04rem}.card p{margin:0;color:var(--muted);font-size:.92rem}.privacy{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:center;border:1px solid #f12b5033;background:linear-gradient(120deg,#2a1019aa,#111118);border-radius:16px;padding:26px}.privacy-mark{font:700 clamp(2rem,6vw,4rem) var(--mono);letter-spacing:-.08em;color:#ff6c86}.privacy p{color:var(--muted);margin:6px 0 0}.bottom{text-align:center;padding:72px 0 50px}.bottom p{color:var(--muted);margin:8px auto 22px}.repo{display:inline-flex}footer{border-top:1px solid var(--line);padding:22px 0 34px;color:#777585;font-size:.8rem;text-align:center}
+@media(max-width:640px){.wrap{width:min(100% - 28px,1000px)}.nav{height:60px}nav{gap:13px}nav a{font-size:.78rem}.hero{padding-top:60px}.grid{grid-template-columns:1fr}.privacy{grid-template-columns:1fr}.privacy-mark{font-size:2.7rem}#output{height:290px;padding:15px;font-size:.81rem}.chip{font-size:.7rem}}@media(max-width:390px){nav{gap:9px}nav a{font-size:.72rem}.brand{font-size:.88rem}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header class="hero">
-    <span class="eyebrow">Offline AI Assistant</span>
-    <h1><span>GENESIS</span></h1>
-    <p class="sub">An AI assistant that runs on a local LLM, with no cloud and no data leaving your machine. Don't read about it. Type a command.</p>
-    <div class="cta">
-      <a class="btn primary" href="#demo">Try it live</a>
-      <a class="btn" href="https://github.com/FLR-Bunny-dev/Portfolio" target="_blank" rel="noopener">View on GitHub</a>
-    </div>
-  </header>
-
-  <main>
-    <div class="term" id="demo" role="region" aria-label="GENESIS interactive terminal demo">
-      <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="t">genesis ~ offline</span><span class="live">● local</span></div>
-      <div id="out" aria-live="polite"></div>
-      <div class="chips" id="chips"></div>
-      <form id="f" autocomplete="off">
-        <span>&gt;</span>
-        <input id="in" aria-label="Type a GENESIS command" placeholder="Type /help or tap a command above" autocapitalize="off" spellcheck="false" />
-      </form>
-    </div>
-    <p class="note">Interactive preview with simulated responses. The real assistant runs on your own local model.</p>
-
-    <section>
-      <h2>What GENESIS does</h2>
-      <p class="lead">Everything runs through simple commands.</p>
-      <div class="grid">
-        <div class="card"><code>/remember · /memories</code><h3>Memory management</h3><p>Store things once and recall them later.</p></div>
-        <div class="card"><code>/plan · /addtask</code><h3>Task tracking and planning</h3><p>Turn a goal into tasks you can track.</p></div>
-        <div class="card"><code>create · read · review</code><h3>File operations</h3><p>Create, read and review Python files.</p></div>
-        <div class="card"><code>/3d cube · tree · sphere</code><h3>3D visualization modes</h3><p>Look at your data as shapes.</p></div>
-      </div>
-    </section>
-
-    <section class="final">
-      <h2>Want to see how it's built?</h2>
-      <p class="lead">The code, the 3D Orb Gallery and the build setup are all in the repo.</p>
-      <a class="btn primary" href="https://github.com/FLR-Bunny-dev/Portfolio" target="_blank" rel="noopener">Open the repository</a>
-    </section>
-  </main>
-
-  <footer>Built with GENESIS · Offline AI Assistant · 2026</footer>
-</div>
-
+<header><div class="wrap nav"><a class="brand" href="#" aria-label="GENESIS home">G<b>/</b>GENESIS</a><nav aria-label="Main navigation"><a href="#demo">Demo</a><a href="#features">Features</a><a href="#privacy">Privacy</a></nav></div></header>
+<main class="wrap">
+<section class="hero" aria-labelledby="hero-title"><span class="eyebrow"><i class="pulse" aria-hidden="true"></i> Local-first assistant concept</span><h1 id="hero-title"><span>GENESIS</span></h1><p class="intro">A personal AI assistant concept built around local models, useful workflows and keeping your data close. Explore the command demo below.</p><div class="actions"><a class="btn primary" href="#demo">Launch terminal ↓</a><a class="btn" href="https://github.com/FLR-Bunny-dev/Portfolio" target="_blank" rel="noopener noreferrer">Explore the source ↗</a></div>
+<div class="terminal" id="demo" role="region" aria-label="Interactive GENESIS command demo"><div class="termbar"><i class="dot"></i><i class="dot"></i><i class="dot"></i><span class="termname">genesis — local session</span><span class="status">● DEMO</span></div><div id="output" role="log" aria-live="polite" aria-relevant="additions text"></div><div class="chips" id="chips" aria-label="Example commands"></div><form id="command-form"><label for="command">›</label><input id="command" name="command" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Try /help ..." aria-label="Enter a command"><button type="submit">RUN ↵</button></form></div><p class="disclaimer">This is an interactive browser simulation. It does not connect to or run an AI model.</p>
+</section>
+<section id="features"><div class="sectionhead"><h2>Built around useful workflows.</h2><p class="muted">A simple command interface for the everyday things an assistant should help with.</p></div><div class="grid">
+<article class="card"><span class="symbol">01 / MEMORY</span><h3>Personal memory</h3><p>Save notes and retrieve them later. Demo memories persist in this browser on this device.</p></article>
+<article class="card"><span class="symbol">02 / PLANNING</span><h3>Tasks that move forward</h3><p>Break goals into manageable steps, add tasks and mark work complete.</p></article>
+<article class="card"><span class="symbol">03 / COMMANDS</span><h3>Direct, simple controls</h3><p>Use short commands to explore the assistant's proposed workflow.</p></article>
+<article class="card"><span class="symbol">04 / VISUALS</span><h3>3D mode preview</h3><p>Try a lightweight animated cube preview from the terminal.</p></article>
+</div></section>
+<section id="privacy"><div class="privacy"><div><span class="eyebrow">Privacy by design</span><div class="privacy-mark">YOUR DATA.<br>YOUR DEVICE.</div></div><div><h2>Local-first is the goal.</h2><p>GENESIS is presented as a local-first assistant concept. This portfolio demo stores only its sample memories and tasks in your browser's local storage. No account or server sync is used by this demo.</p></div></div></section>
+<section class="bottom"><h2>Curious about the build?</h2><p>Explore the project files, implementation and experiments in the repository.</p><a class="btn primary repo" href="https://github.com/FLR-Bunny-dev/Portfolio" target="_blank" rel="noopener noreferrer">View project on GitHub ↗</a></section>
+</main>
+<footer><div class="wrap">GENESIS · Local-first assistant concept · <span id="year"></span></div></footer>
 <script>
 (function(){
-  var out=document.getElementById('out'), form=document.getElementById('f'), input=document.getElementById('in'), chipsEl=document.getElementById('chips');
-  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var tasks=[], memories=[], busy=false;
-
-  function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]});}
-  function add(cls,html){var d=document.createElement('div');d.className=cls;d.innerHTML=html;out.appendChild(d);out.scrollTop=out.scrollHeight;return d;}
-  function reply(html,after){
-    busy=true;
-    var d=add('g','<span class="cursor"></span>');
-    setTimeout(function(){d.innerHTML=html;out.scrollTop=out.scrollHeight;busy=false;if(after)after();},reduce?0:420);
-  }
-  function cube(){return '<div class="cube-scene" aria-hidden="true"><div class="cube"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>';}
-
-  var HELP='<b>Available commands</b>\n/remember &lt;text&gt;   save a memory\n/memories           list memories\n/plan &lt;goal&gt;        break a goal into steps\n/addtask &lt;text&gt;     add a task\n/3d cube|tree|sphere  3D visualization\n/clear              clear the screen';
-
-  function run(raw){
-    var line=raw.trim(); if(!line||busy) return;
-    add('u',esc(line));
-    var m=line.match(/^(\/\S+)\s*(.*)$/), cmd=m?m[1].toLowerCase():'', arg=m?m[2].trim():'';
-    if(cmd==='/help'){reply(HELP);}
-    else if(cmd==='/clear'){out.innerHTML='';}
-    else if(cmd==='/remember'){
-      if(!arg){reply('Usage: /remember &lt;text&gt;');return;}
-      memories.push(arg); reply('<b>Saved.</b> '+memories.length+' memor'+(memories.length===1?'y':'ies')+' stored.');
-    }
-    else if(cmd==='/memories'){
-      reply(memories.length?'<b>Memories</b>\n'+memories.map(function(x,i){return (i+1)+'. '+esc(x);}).join('\n'):'No memories yet. Try /remember my favorite language is Python');
-    }
-    else if(cmd==='/addtask'){
-      if(!arg){reply('Usage: /addtask &lt;text&gt;');return;}
-      tasks.push(arg); reply('<b>Task added.</b>\n'+tasks.map(function(x,i){return '[ ] '+(i+1)+'. '+esc(x);}).join('\n'));
-    }
-    else if(cmd==='/plan'){
-      var g=arg||'your goal';
-      reply('<b>Plan for:</b> '+esc(g)+'\n1. Define what done looks like\n2. Break it into small tasks\n3. Do the first task today\n4. Review progress and adjust\n\nTip: use /addtask to track each step.');
-    }
-    else if(cmd==='/3d'){
-      var k=arg.toLowerCase();
-      if(k==='cube'){reply('<b>Rendering cube</b>'+cube());}
-      else if(k==='tree'||k==='sphere'){reply('<b>Rendering '+k+'</b>\nThis mode runs in the full assistant. Try /3d cube for a live preview here.');}
-      else{reply('Usage: /3d cube | tree | sphere');}
-    }
-    else{reply('Unknown command. Type /help to see what GENESIS can do.');}
-  }
-
-  ['/help','/remember I ship on Fridays','/memories','/plan learn Three.js','/addtask write tests','/3d cube'].forEach(function(c){
-    var b=document.createElement('button');b.type='button';b.className='chip';b.textContent=c;
-    b.addEventListener('click',function(){run(c);});chipsEl.appendChild(b);
-  });
-  form.addEventListener('submit',function(e){e.preventDefault();var v=input.value;input.value='';run(v);});
-
-  add('g','<b>GENESIS online.</b> Offline mode. Tap a command below or type /help.');
-  setTimeout(function(){run('/help');},reduce?0:700);
+'use strict';
+const output=document.getElementById('output'),form=document.getElementById('command-form'),input=document.getElementById('command'),chips=document.getElementById('chips');
+const KEY='genesis-portfolio-demo-v2';
+let state={memories:[],tasks:[]};
+try{const saved=JSON.parse(localStorage.getItem(KEY)||'null');if(saved&&Array.isArray(saved.memories)&&Array.isArray(saved.tasks))state=saved;}catch(_){}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(_){write('Browser storage is unavailable; changes will last only for this session.','hint');}}
+function write(text,kind){const p=document.createElement('p');p.className='line '+(kind||'response');p.textContent=text;output.appendChild(p);output.scrollTop=output.scrollHeight;}
+function user(text){write(text,'userline');}
+function help(){return 'COMMANDS\\n/help                 show this guide\\n/remember <text>      save a memory\\n/memories             list saved memories\\n/forget <number>      delete a memory\\n/addtask <text>       add a task\\n/tasks                list tasks\\n/done <number>        complete a task\\n/plan <goal>          make a starter plan\\n/3d cube              show a 3D cube\\n/clear                clear terminal output\\n/reset                clear demo data';}
+function cube(){const box=document.createElement('div');box.style.cssText='height:120px;display:grid;place-items:center;perspective:500px;margin:8px 0 14px';const c=document.createElement('div');c.style.cssText='width:58px;height:58px;position:relative;transform-style:preserve-3d;animation:genesis-spin 7s linear infinite';for(let i=0;i<6;i++){const f=document.createElement('i');f.style.cssText='position:absolute;inset:0;border:1px solid #ff718a;background:#f12b5028;'+['transform:translateZ(29px)','transform:rotateY(180deg) translateZ(29px)','transform:rotateY(90deg) translateZ(29px)','transform:rotateY(-90deg) translateZ(29px)','transform:rotateX(90deg) translateZ(29px)','transform:rotateX(-90deg) translateZ(29px)'][i];c.appendChild(f);}box.appendChild(c);output.appendChild(box);output.scrollTop=output.scrollHeight;}
+const style=document.createElement('style');style.textContent='@keyframes genesis-spin{to{transform:rotateX(360deg) rotateY(360deg)}}@media(prefers-reduced-motion:reduce){.cube-demo{animation:none!important}}';document.head.appendChild(style);
+function run(raw){const line=raw.trim();if(!line)return;user(line);const split=line.match(/^(\\/\\S+)\\s*(.*)$/),cmd=split?split[1].toLowerCase():'',arg=split?split[2].trim():'';
+if(cmd==='/clear'){output.replaceChildren();return;}
+if(cmd==='/help'){write(help());return;}
+if(cmd==='/remember'){if(!arg){write('Usage: /remember <text>');return;}state.memories.push(arg);persist();write('Saved memory #'+state.memories.length+'.');return;}
+if(cmd==='/memories'){write(state.memories.length?state.memories.map((x,i)=>(i+1)+'. '+x).join('\\n'):'No memories saved yet. Try /remember I like building things.');return;}
+if(cmd==='/forget'){const n=Number(arg);if(!Number.isInteger(n)||n<1||n>state.memories.length){write('Usage: /forget <valid memory number>');return;}state.memories.splice(n-1,1);persist();write('Memory deleted.');return;}
+if(cmd==='/addtask'){if(!arg){write('Usage: /addtask <text>');return;}state.tasks.push({text:arg,done:false});persist();write('Added task #'+state.tasks.length+': '+arg);return;}
+if(cmd==='/tasks'){write(state.tasks.length?state.tasks.map((t,i)=>(i+1)+'. ['+(t.done?'x':' ')+'] '+t.text).join('\\n'):'No tasks yet. Try /addtask Build my next idea.');return;}
+if(cmd==='/done'){const n=Number(arg);if(!Number.isInteger(n)||n<1||n>state.tasks.length){write('Usage: /done <valid task number>');return;}state.tasks[n-1].done=true;persist();write('Completed: '+state.tasks[n-1].text);return;}
+if(cmd==='/plan'){if(!arg){write('Usage: /plan <goal>');return;}write('STARTER PLAN — '+arg+'\\n1. Define the finished result.\\n2. List the smallest useful milestones.\\n3. Choose one action to do first.\\n4. Review progress and adjust.\\n\\nTip: add the steps you want to track with /addtask.');return;}
+if(cmd==='/3d'){if(arg.toLowerCase()!=='cube'){write('Try /3d cube in this demo.');return;}write('Rendering a simple 3D cube preview…');cube();return;}
+if(cmd==='/reset'){state={memories:[],tasks:[]};persist();write('Demo memories and tasks cleared from this browser.');return;}
+write('Unknown command. Type /help to see available commands.');}
+['/help','/remember I like Python','/memories','/addtask Ship my portfolio','/tasks','/3d cube'].forEach(cmd=>{const b=document.createElement('button');b.type='button';b.className='chip';b.textContent=cmd;b.addEventListener('click',()=>run(cmd));chips.appendChild(b);});
+form.addEventListener('submit',e=>{e.preventDefault();const value=input.value;input.value='';run(value);input.focus();});
+document.getElementById('year').textContent=new Date().getFullYear();
+write('GENESIS demo ready. Type /help or choose a command above.','hint');
 })();
 </script>
 </body>
