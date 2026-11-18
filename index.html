@@ -1,146 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Portfolio - GENESIS AI Assistant</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Söhne:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      :root {
-        --bg: #ffffff;
-        --fg: #0a0a0c;
-        --muted: #6b6b80;
-        --accent: #e4002b;
-      }
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      body {
-        font-family: "Söhne", system-ui, -apple-system, sans-serif;
-        background: var(--bg);
-        color: var(--fg);
-        min-height: 100vh;
-        line-height: 1.6;
-      }
-      .max-width {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 2rem;
-      }
-      h1 {
-        font-size: 2.5rem;
-        font-weight: 600;
-        margin-bottom: 1rem;
-      }
-      h2 {
-        font-size: 1.75rem;
-        font-weight: 500;
-        margin: 2rem 0 1rem;
-      }
-      p {
-        color: var(--muted);
-        margin-bottom: 1.5rem;
-      }
-      .tag {
-        display: inline-block;
-        background: #e4002b;
-        color: white;
-        padding: 4px 8px;
-        font-size: 0.75rem;
-        font-weight: 500;
-        border-radius: 4px;
-        margin-right: 4px;
-        margin-bottom: 4px;
-      }
-      .card {
-        background: #f8f8f8;
-        border: 1px solid #e0e0e0;
-        border-radius: 8px;
-        padding: 1.5rem;
-        margin: 1rem 0;
-      }
-      .tech {
-        color: var(--accent);
-        font-weight: 500;
-      }
-      .footer {
-        margin-top: 3rem;
-        padding-top: 2rem;
-        border-top: 1px solid #e0e0e0;
-        color: var(--muted);
-        font-size: 0.875rem;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="max-width">
-      <h1>GENESIS</h1>
-      <p>Offline AI Assistant</p>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GENESIS: Offline AI Assistant</title>
+<meta name="description" content="GENESIS is an offline AI assistant that runs a local LLM. Try the commands live in the terminal below." />
+<style>
+  :root{
+    --bg:#08080b; --panel:#0f0f14; --line:#23232d; --fg:#f2f2f5; --muted:#9a9ab0;
+    --accent:#e4002b; --accent2:#ff5c7a; --ok:#4ade80;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--fg);font-family:var(--sans);line-height:1.6;min-height:100vh;
+    background-image:radial-gradient(60rem 30rem at 50% -10%,rgba(228,0,43,.18),transparent 60%)}
+  .wrap{max-width:860px;margin:0 auto;padding:0 20px}
+  header.hero{padding:56px 0 24px;text-align:center}
+  .eyebrow{display:inline-block;font:500 .75rem var(--mono);letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent2);border:1px solid rgba(255,92,122,.35);padding:4px 10px;border-radius:999px;margin-bottom:18px}
+  h1{font-size:clamp(2.6rem,9vw,4.6rem);font-weight:700;letter-spacing:-.03em;line-height:1.05}
+  h1 span{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--muted);font-size:1.1rem;max-width:34rem;margin:16px auto 26px}
+  .cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .btn{display:inline-block;padding:13px 22px;border-radius:10px;font-weight:600;text-decoration:none;font-size:1rem;
+    border:1px solid var(--line);color:var(--fg);transition:transform .15s,border-color .15s,background .15s}
+  .btn:hover{transform:translateY(-2px);border-color:#44445a}
+  .btn.primary{background:var(--accent);border-color:var(--accent)}
+  .btn.primary:hover{background:#ff1a44}
+  .btn:focus-visible,.chip:focus-visible,input:focus-visible{outline:2px solid var(--accent2);outline-offset:2px}
 
-      <section>
-        <h2>Features</h2>
-        <ul style="margin-bottom: 2rem;">
-          <li>Natural language interaction with local LLM</li>
-          <li>Memory management (/remember, /memories)</li>
-          <li>Task tracking and planning (/plan, /addtask)</li>
-          <li>File operations (create, read, review Python files)</li>
-          <li>3D visualization modes (/3d cube, /3d tree, /3d sphere)</li>
-        </ul>
-      </section>
+  .term{margin:34px 0 10px;background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;
+    box-shadow:0 30px 80px -30px rgba(228,0,43,.35)}
+  .bar{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--line);background:#0b0b10}
+  .dot{width:11px;height:11px;border-radius:50%;background:#2c2c38}
+  .bar .t{margin-left:8px;font:.78rem var(--mono);color:var(--muted)}
+  .bar .live{margin-left:auto;font:.7rem var(--mono);color:var(--ok)}
+  #out{font:.92rem/1.55 var(--mono);padding:16px;height:330px;overflow-y:auto;scroll-behavior:smooth}
+  #out .u{color:var(--accent2)}
+  #out .u::before{content:"> ";color:var(--muted)}
+  #out .g{color:#d9d9e4;margin:2px 0 12px;white-space:pre-wrap}
+  #out .g b{color:var(--ok);font-weight:600}
+  .cursor{display:inline-block;width:8px;height:1em;background:var(--accent2);vertical-align:-2px;animation:b 1s steps(2) infinite}
+  @keyframes b{50%{opacity:0}}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;padding:0 16px 14px}
+  .chip{font:.82rem var(--mono);color:var(--fg);background:#16161e;border:1px solid var(--line);border-radius:999px;
+    padding:8px 14px;cursor:pointer;min-height:40px;transition:border-color .15s,background .15s}
+  .chip:hover{border-color:var(--accent2);background:#1d1d27}
+  form{display:flex;border-top:1px solid var(--line)}
+  form span{padding:14px 0 14px 16px;font:.92rem var(--mono);color:var(--accent2)}
+  input{flex:1;background:transparent;border:0;color:var(--fg);font:.92rem var(--mono);padding:14px 16px 14px 8px;min-width:0}
+  input::placeholder{color:#5d5d72}
+  .note{font-size:.78rem;color:#6d6d82;text-align:center;margin:10px 0 0}
 
-      <section>
-        <h2>3D Orb Gallery</h2>
-        <p>
-          Interactive sphere of interface references built with Three.js and
-          embedded gallery plates. This component visualizes interface designs
-          as a rotating orb with hover lift and focus dimming effects.
-        </p>
+  .cube-scene{perspective:600px;height:130px;display:flex;justify-content:center;align-items:center}
+  .cube{width:70px;height:70px;position:relative;transform-style:preserve-3d;animation:spin 7s linear infinite}
+  .cube i{position:absolute;inset:0;border:1px solid var(--accent2);background:rgba(228,0,43,.12)}
+  .cube i:nth-child(1){transform:translateZ(35px)}
+  .cube i:nth-child(2){transform:rotateY(180deg) translateZ(35px)}
+  .cube i:nth-child(3){transform:rotateY(90deg) translateZ(35px)}
+  .cube i:nth-child(4){transform:rotateY(-90deg) translateZ(35px)}
+  .cube i:nth-child(5){transform:rotateX(90deg) translateZ(35px)}
+  .cube i:nth-child(6){transform:rotateX(-90deg) translateZ(35px)}
+  @keyframes spin{to{transform:rotateX(360deg) rotateY(360deg)}}
 
-        <div id="orb-gallery-root"></div>
-
-        <script type="module">
-          import { OrbGallery } from "./src/shaders/orb-gallery/OrbGallery.tsx";
-
-          // Render OrbGallery into the div
-          const root = document.getElementById("orb-gallery-root");
-          if (typeof OrbGallery !== "undefined") {
-            // Dynamic import for browser environment
-            import("./src/shaders/orb-gallery/OrbGallery.tsx")
-              .then(module => {
-                const component = module.OrbGallery.default || module.OrbGallery;
-                root.innerHTML = "";
-                root.appendChild(component({}));
-              })
-              .catch(err => {
-                console.error("OrbGallery load error:", err);
-                root.innerHTML = `
-                  <div class="card">
-                    <h3>Orb Gallery</h3>
-                    <p>Gallery visualization loading...</p>
-                  </div>
-                `;
-              });
-          } else {
-            root.innerHTML = `
-              <div class="card">
-                <h3>Orb Gallery</h3>
-                <p>Gallery component loading...</p>
-              </div>
-            `;
-          }
-        </script>
-      </section>
-
-      <footer class="footer">
-        <p>
-          Built with GENESIS · Offline AI Assistant · 2026
-        </p>
-      </footer>
+  section{padding:46px 0 10px}
+  h2{font-size:1.6rem;letter-spacing:-.01em;margin-bottom:6px}
+  .lead{color:var(--muted);margin-bottom:22px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
+  .card code{font:.82rem var(--mono);color:var(--accent2);display:block;margin-bottom:8px}
+  .card h3{font-size:1.02rem;margin-bottom:4px}
+  .card p{color:var(--muted);font-size:.93rem}
+  .final{text-align:center;padding:56px 0 20px}
+  footer{border-top:1px solid var(--line);margin-top:40px;padding:24px 0 40px;color:#6d6d82;font-size:.85rem;text-align:center}
+  @media (prefers-reduced-motion:reduce){.cube,.cursor{animation:none}html{scroll-behavior:auto}#out{scroll-behavior:auto}}
+  @media (max-width:520px){#out{height:300px;font-size:.85rem}header.hero{padding-top:36px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <span class="eyebrow">Offline AI Assistant</span>
+    <h1><span>GENESIS</span></h1>
+    <p class="sub">An AI assistant that runs on a local LLM, with no cloud and no data leaving your machine. Don't read about it. Type a command.</p>
+    <div class="cta">
+      <a class="btn primary" href="#demo">Try it live</a>
+      <a class="btn" href="https://github.com/FLR-Bunny-dev/Portfolio" target="_blank" rel="noopener">View on GitHub</a>
     </div>
-  </body>
+  </header>
+
+  <main>
+    <div class="term" id="demo" role="region" aria-label="GENESIS interactive terminal demo">
+      <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="t">genesis ~ offline</span><span class="live">● local</span></div>
+      <div id="out" aria-live="polite"></div>
+      <div class="chips" id="chips"></div>
+      <form id="f" autocomplete="off">
+        <span>&gt;</span>
+        <input id="in" aria-label="Type a GENESIS command" placeholder="Type /help or tap a command above" autocapitalize="off" spellcheck="false" />
+      </form>
+    </div>
+    <p class="note">Interactive preview with simulated responses. The real assistant runs on your own local model.</p>
+
+    <section>
+      <h2>What GENESIS does</h2>
+      <p class="lead">Everything runs through simple commands.</p>
+      <div class="grid">
+        <div class="card"><code>/remember · /memories</code><h3>Memory management</h3><p>Store things once and recall them later.</p></div>
+        <div class="card"><code>/plan · /addtask</code><h3>Task tracking and planning</h3><p>Turn a goal into tasks you can track.</p></div>
+        <div class="card"><code>create · read · review</code><h3>File operations</h3><p>Create, read and review Python files.</p></div>
+        <div class="card"><code>/3d cube · tree · sphere</code><h3>3D visualization modes</h3><p>Look at your data as shapes.</p></div>
+      </div>
+    </section>
+
+    <section class="final">
+      <h2>Want to see how it's built?</h2>
+      <p class="lead">The code, the 3D Orb Gallery and the build setup are all in the repo.</p>
+      <a class="btn primary" href="https://github.com/FLR-Bunny-dev/Portfolio" target="_blank" rel="noopener">Open the repository</a>
+    </section>
+  </main>
+
+  <footer>Built with GENESIS · Offline AI Assistant · 2026</footer>
+</div>
+
+<script>
+(function(){
+  var out=document.getElementById('out'), form=document.getElementById('f'), input=document.getElementById('in'), chipsEl=document.getElementById('chips');
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var tasks=[], memories=[], busy=false;
+
+  function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]});}
+  function add(cls,html){var d=document.createElement('div');d.className=cls;d.innerHTML=html;out.appendChild(d);out.scrollTop=out.scrollHeight;return d;}
+  function reply(html,after){
+    busy=true;
+    var d=add('g','<span class="cursor"></span>');
+    setTimeout(function(){d.innerHTML=html;out.scrollTop=out.scrollHeight;busy=false;if(after)after();},reduce?0:420);
+  }
+  function cube(){return '<div class="cube-scene" aria-hidden="true"><div class="cube"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>';}
+
+  var HELP='<b>Available commands</b>\n/remember &lt;text&gt;   save a memory\n/memories           list memories\n/plan &lt;goal&gt;        break a goal into steps\n/addtask &lt;text&gt;     add a task\n/3d cube|tree|sphere  3D visualization\n/clear              clear the screen';
+
+  function run(raw){
+    var line=raw.trim(); if(!line||busy) return;
+    add('u',esc(line));
+    var m=line.match(/^(\/\S+)\s*(.*)$/), cmd=m?m[1].toLowerCase():'', arg=m?m[2].trim():'';
+    if(cmd==='/help'){reply(HELP);}
+    else if(cmd==='/clear'){out.innerHTML='';}
+    else if(cmd==='/remember'){
+      if(!arg){reply('Usage: /remember &lt;text&gt;');return;}
+      memories.push(arg); reply('<b>Saved.</b> '+memories.length+' memor'+(memories.length===1?'y':'ies')+' stored.');
+    }
+    else if(cmd==='/memories'){
+      reply(memories.length?'<b>Memories</b>\n'+memories.map(function(x,i){return (i+1)+'. '+esc(x);}).join('\n'):'No memories yet. Try /remember my favorite language is Python');
+    }
+    else if(cmd==='/addtask'){
+      if(!arg){reply('Usage: /addtask &lt;text&gt;');return;}
+      tasks.push(arg); reply('<b>Task added.</b>\n'+tasks.map(function(x,i){return '[ ] '+(i+1)+'. '+esc(x);}).join('\n'));
+    }
+    else if(cmd==='/plan'){
+      var g=arg||'your goal';
+      reply('<b>Plan for:</b> '+esc(g)+'\n1. Define what done looks like\n2. Break it into small tasks\n3. Do the first task today\n4. Review progress and adjust\n\nTip: use /addtask to track each step.');
+    }
+    else if(cmd==='/3d'){
+      var k=arg.toLowerCase();
+      if(k==='cube'){reply('<b>Rendering cube</b>'+cube());}
+      else if(k==='tree'||k==='sphere'){reply('<b>Rendering '+k+'</b>\nThis mode runs in the full assistant. Try /3d cube for a live preview here.');}
+      else{reply('Usage: /3d cube | tree | sphere');}
+    }
+    else{reply('Unknown command. Type /help to see what GENESIS can do.');}
+  }
+
+  ['/help','/remember I ship on Fridays','/memories','/plan learn Three.js','/addtask write tests','/3d cube'].forEach(function(c){
+    var b=document.createElement('button');b.type='button';b.className='chip';b.textContent=c;
+    b.addEventListener('click',function(){run(c);});chipsEl.appendChild(b);
+  });
+  form.addEventListener('submit',function(e){e.preventDefault();var v=input.value;input.value='';run(v);});
+
+  add('g','<b>GENESIS online.</b> Offline mode. Tap a command below or type /help.');
+  setTimeout(function(){run('/help');},reduce?0:700);
+})();
+</script>
+</body>
 </html>
